@@ -3,8 +3,8 @@ import os
 path = os.path.abspath(os.path.dirname(__file__))
 with open(os.path.join(path, "README.md"), "r", encoding="utf-8") as f:
     long_description = f.read()
-    setup(name='nonebot-plugin-mcport',  # 包名
-          version='0.1.0',  # 版本号
+    setup(name='nonebot-plugin-mcport',
+          version='0.1.1',
           description='通过RCON向我的世界JAVA服务器发送命令.',
           long_description=long_description,
           long_description_content_type="text/markdown",
@@ -18,7 +18,7 @@ with open(os.path.join(path, "README.md"), "r", encoding="utf-8") as f:
               "nonebot2>=2.0.0a16",
               "nonebot-adapter-onebot>=2.0.0b1",
               "nonebot-plugin-apscheduler>=0.2.0",
-              "async-mcrcon"
+              "async-mcrcon>=0.1.0"
           ],
           license='MIT License',
           packages=find_packages(),
