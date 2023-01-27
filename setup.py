@@ -17,7 +17,7 @@ with open(os.path.join(path, "README.md"), "r", encoding="utf-8") as f:
               "pillow",
               "nonebot2>=2.0.0a16",
               "nonebot-adapter-onebot>=2.0.0b1",
-              "nonebot-plugin-apscheduler>=0.2.0"
+              "nonebot-plugin-apscheduler>=0.2.0",
               "async-mcrcon"
           ],
           license='MIT License',
