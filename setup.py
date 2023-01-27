@@ -19,7 +19,6 @@ with open(os.path.join(path, "README.md"), "r", encoding="utf-8") as f:
               "nonebot-adapter-onebot>=2.0.0b1",
               "nonebot-plugin-apscheduler>=0.2.0"
               "async-mcrcon"
-              "nonebot>=1.9.1"
           ],
           license='MIT License',
           packages=find_packages(),
