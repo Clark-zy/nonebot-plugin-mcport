@@ -1,8 +1,8 @@
 * 一个可以远程操控我的世界java服务器的bot
-* 关于如何使用
+# 如何安装本插件
+* pip install nonebot-plugin-mcrcon
+* git clone https://github.com/Proviasw/nonebot-plugin-mcport.git
 # 前提(必要)
-* 克隆整个仓库,将本目录下的async_mcrcon.py放入site-packages目录下
-* 虚拟环境同理，放入python包路径即可
 * pip install pillow
 * pip install async-mcrcon(如果不存在，请换pip官方源)
 # 我的世界功能部分
