@@ -1,6 +1,6 @@
 * 一个可以远程操控我的世界java服务器的bot
 # 如何安装本插件
-* pip install nonebot-plugin-mcrcon
+* pip install nonebot-plugin-mcport
 * git clone https://github.com/Proviasw/nonebot-plugin-mcport.git
 # 前提(必要)
 * pip install pillow
