@@ -1,26 +1,21 @@
+# 请保护好自己的rcon配置项，任何问题与本插件无关
 * 一个可以远程操控我的世界java服务器的bot
-# 如何安装本插件
-* pip install nonebot-plugin-mcport
-* git clone https://github.com/Proviasw/nonebot-plugin-mcport.git
+* 此插件配置视频教程：[点我查看视频教程](https://www.bilibili.com/video/BV1LY411S7kD/?share_source=copy_web&vd_source=e0ca427d4461aaedc892cf4bc908d052)
+* 关于如何使用
 # 前提(必要)
+* 克隆整个仓库,将本目录下的async_mcrcon.py放入site-packages目录下
+* 虚拟环境同理，放入python包路径即可
 * pip install pillow
-* pip install async-mcrcon(如果不存在，请换pip官方源)
+* pip install async-mcrcon
+* nb plugin install nonebot-plugin-txt2img
 # 我的世界功能部分
 1.   请务必保护好自己的rcon信息，此信息为你的敏感信息
 2.   在.env中配置服务器的rcon项
 # bot配置
 * 配置一个go-cq端作为无头QQ端
 # 主体部分
-1. 自行配置nonebot2客户端，具体教程参考b站小狐狸[点此跳转nb2配置教程](https://www.bilibili.com/read/cv21231223?spm_id_from=333.999.0.0)
-2. 配置完成后在.env添加如下配置项
-3. rconhost = "此处填写你的ip"
-4. rconpassword = "此处填写你的password"
-5. rconport = 此处填写你的端口
-6. groupset = 将本消息替换为需要开启入群欢迎的群号
-7. timemessage = 需要开启定时消息的群号
-8. zr=填写主人QQ号(不要乱填，会向服务端发送指令)
-9. 在此目录下运行nb run即可
-# 功能介绍(1-4配置详情mcrcon.py 5配置详情timemessage.py)
+* 自行配置nonebot2客户端，具体教程参考b站小狐狸[点此跳转nb2配置教程](https://www.bilibili.com/read/cv21231223?spm_id_from=333.999.0.0)
+# 功能介绍
 1. 向我的世界JAVA版服务端发送指令并返回图片回执
 2. 无脑同意进群(需要在mcrcon.py中124行处配置群号)
 3. 响应关键词回复
@@ -31,5 +26,15 @@
 2. rcon.port=
 3. rcon.password=
 4. enable-rcon=true
+# env配置项
+| config | example | usage | 
+| -------- | -------- | -------- | 
+| rconhost| rconhost = "127.0.0.1"| 服务器ip|
+| rconpassword| rconpassword = "114514"| 服务器rcon密码 | 
+| rconpor| rconport = 114514| 服务器rcon端口| 
+|groupset| groupset=[114514]| 开启入群欢迎的群号| 
+| zr|zr=[1919810] | 响应执行命令的主人QQ号| 
+|tit|tit=仙贝|图片的title| 
+
 
 
