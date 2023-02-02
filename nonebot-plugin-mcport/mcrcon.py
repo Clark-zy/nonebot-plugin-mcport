@@ -18,76 +18,20 @@ import asyncio
 import re
 import json
 
-############画图部分
-############画图部分
-############画图部分
-from PIL import Image, ImageDraw, ImageFont
-from io import BytesIO
-from pathlib import Path
-from nonebot.adapters.onebot.v11 import MessageSegment as MS
-
-
-def text_to_img(
-    text: str, font_path: str = f"{Path(__file__).parent}/font/HYWenHei-85W.ttf"
-) -> BytesIO:
-    """
-    字转图片
-    """
-    lines = text.splitlines()
-    line_count = len(lines)
-    # 读取字体
-    font = ImageFont.truetype(font_path, 18)
-    # 获取字体的行高
-    left, top, width, line_height = font.getbbox("a")
-    # 增加行距
-    line_height += 3
-    # 获取画布需要的高度
-    height = line_height * line_count + 20
-    # 获取画布需要的宽度
-    width = int(max([font.getlength(line) for line in lines])) + 25
-    # 字体颜色
-    black_color = (0, 0, 0)
-    # 生成画布
-    image = Image.new("RGB", (width, height), (255, 255, 255))
-    draw = ImageDraw.Draw(image)
-    # 按行开画，c是计算写到第几行
-    c = 0
-    for line in lines:
-        draw.text((10, 6 + line_height * c), line, font=font, fill=black_color)
-        c += 1
-    img_bytes = BytesIO()
-    image.save(img_bytes, format="jpeg")
-    return img_bytes
-############画图结束
-
-#画图测试
-test = on_regex(r"^test$")
-
-
-@test.handle()
-async def handle_test(event: GroupMessageEvent, mp=RegexGroup()):
-    text = """画图测试"""
-    await test.finish(MS.image(text_to_img(text)))
-#画图测试
-
-############插件正文
-############插件正文
-############插件正文
-
-
 # 获取服务器rcon配置
 config = get_driver().config.dict()
 rconhost = config.get("rconhost")
 rconport = config.get("rconport")
 rconpassword = config.get("rconpassword")
 zr = config.get("zr")
+tit = config.get("tit")
 # list
 list = on_command("list")
 @list.handle()
 async def main():
     async with MinecraftClient(rconhost, rconport, rconpassword) as mc:
         output = await mc.send("list")
-        title = '酒叔科技'
+        title = tit
         text = re.sub(r"§\w", "", output)
         font_size = 32
         txt2img = Txt2Img()
@@ -110,7 +54,7 @@ async def mingling(event: GroupMessageEvent, w=RegexGroup()):
             output = await mc.send(f"{event1}")
             if output:
                 len(output) > 0
-                title = '酒叔科技'
+                title = tit
                 text = re.sub(r"§\w", "", output)
                 font_size = 32
                 txt2img = Txt2Img()
@@ -132,7 +76,7 @@ async def mcink(event: GroupMessageEvent,mp=RegexGroup()):
         user_id = event.user_id
         async with MinecraftClient(rconhost, rconport, rconpassword) as mc:
             output = await mc.send(f"mcink add {user_id} {player_id}")
-            title = '酒叔科技'
+            title = tit
             text = re.sub(r"§\w", "", output)
             font_size = 32
             txt2img = Txt2Img()
@@ -150,21 +94,22 @@ async def mcink(event: GroupMessageEvent,mp=RegexGroup()):
 #这里是无脑自动同意进群
 #这里是无脑自动同意进群
 notice=on_request(priority=1)
-group_to_use=[""] #填开启自动审批的群
 @notice.handle()
 async def _(bot: Bot,event: GroupRequestEvent):
     raw = json.loads(event.json())
-    gid = str(event.group_id)
+    user_info = await bot.get_stranger_info(user_id=event.user_id)
+    logger.info(user_info)
     flag = raw['flag']
     sub_type = raw['sub_type']
     if sub_type == 'add':
-            comment = raw['comment']
-            word = re.findall(re.compile('答案：(.*)'), comment)[0]
-            uid = event.user_id
-            await bot.set_group_add_request(flag=flag_id,sub_type=type_id,approve=True)
+            level = user_info["level"]
+            int(level)
+            if level >= 10:
+                await bot.set_group_add_request(flag=flag,sub_type=sub_type,approve=True)
+            else:
+                await bot.set_group_add_request(flag=flag,sub_type=sub_type,approve=False,reason='QQ等级小于10级，如误判，请联系管理员')               
     else:
-        await notice.finish("鸡掰，无脑通过怎么会出现else情况呢？")
-        
+        await notice.finish()
     await notice.finish()
 
 
@@ -179,7 +124,7 @@ welcom = on_notice()
 @welcom.handle()  # 监听 welcom
 async def h_r(bot: Bot, event: GroupIncreaseNoticeEvent, state: T_State):  # event: GroupIncreaseNoticeEvent  群成员增加事件
     user = event.get_user_id()  # 获取新成员的id
-    title = '酒叔科技'
+    title = tit
     text = '欢迎新成员 加入我们的大家族!\n首次进入需要申请白名单:\n申请白名单 id\n游戏教程以及异常处理请前往网站查看\njiushu.info'
     font_size = 32
     txt2img = Txt2Img()
@@ -196,7 +141,6 @@ async def h_r(bot: Bot, event: GroupDecreaseNoticeEvent, state: T_State):  # eve
     at_ = "[CQ:at,qq={}]".format(user)
     msg = at_ + '这位玩家离开了本群，大家快出来送别它吧！'
     msg = Message(msg)
-    print(at_)
     if event.group_id in groupset:
         await welcom.finish(message=Message(f'{msg}'))  # 发送消息
 ##自动回复部分
