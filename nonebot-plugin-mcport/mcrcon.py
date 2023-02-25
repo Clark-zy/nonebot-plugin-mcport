@@ -1,22 +1,15 @@
-from async_mcrcon import MinecraftClient,ClientError,InvalidPassword
-from nonebot import on_keyword
+from async_mcrcon import MinecraftClient
 from nonebot import get_driver
-from nonebot import on_request
-from nonebot.typing import T_State
-from nonebot import on_notice
 from nonebot.log import logger
-from nonebot.adapters.onebot.v11 import Bot, GroupRequestEvent,ActionFailed
-from nonebot.permission import SUPERUSER, Permission
+from nonebot.adapters.onebot.v11 import ActionFailed
 from nonebot_plugin_txt2img import Txt2Img
 from nonebot import on_command, on_regex
 from nonebot.adapters.onebot.v11 import Message
 from nonebot.adapters.onebot.v11.event import GroupMessageEvent
 from nonebot.adapters.onebot.v11.message import Message
-from nonebot.adapters.onebot.v11 import Event, GroupIncreaseNoticeEvent, MessageSegment, GroupDecreaseNoticeEvent
-from nonebot.params import CommandArg, RegexGroup
-import asyncio
+from nonebot.adapters.onebot.v11 import MessageSegment
+from nonebot.params import RegexGroup
 import re
-import json
 
 # 获取服务器rcon配置
 config = get_driver().config.dict()
@@ -25,6 +18,11 @@ rconport = config.get("rconport")
 rconpassword = config.get("rconpassword")
 zr = config.get("zr")
 tit = config.get("tit")
+#####发图配置
+title=tit
+font_size = 32
+txt2img = Txt2Img()
+txt2img.set_font_size(font_size)
 # list
 list = on_command("list")
 @list.handle()
@@ -32,18 +30,15 @@ async def main():
     try:
         async with MinecraftClient(rconhost, rconport, rconpassword) as mc:
             output = await mc.send("list")
-            title = tit
             text = re.sub(r"§\w", "", output)
-            font_size = 32
-            txt2img = Txt2Img()
-            txt2img.set_font_size(font_size)
             pic = txt2img.draw(title, text)
             msg = MessageSegment.image(pic)
-            await list.send(message=Message(f'{msg}'))
+            await list.send(message=Message(f'{text}'))
     except ConnectionRefusedError:
         await list.send(message=Message(f'连接服务器失败\n可能是服务器在重启，请稍后再试'))
     except ActionFailed:
-        await zxml.send(message=Message(f'消息被风控发不出来了喔，但是你的命令已经执行成功了哦'))
+        logger.info(f'消息风控，所以我切换了发图捏')
+        await list.send(message=Message(f'{msg}'))
  
             
 
@@ -63,20 +58,17 @@ async def mingling(event: GroupMessageEvent, w=RegexGroup()):
                 output = await mc.send(f"{event1}")
                 if output:
                     len(output) > 0
-                    title = tit
                     text = re.sub(r"§\w", "", output)
-                    font_size = 32
-                    txt2img = Txt2Img()
-                    txt2img.set_font_size(font_size)
                     pic = txt2img.draw(title, text)
                     msg = MessageSegment.image(pic)
-                    await zxml.finish(message=Message(f'{msg}'))
+                    await zxml.finish(message=Message(f'{text}'))
                 else:
                     await zxml.finish("命令已发送，无回执")
         except ConnectionRefusedError:
             await zxml.send(message=Message(f'连接服务器失败\n可能是服务器在重启，请稍后再试'))  
         except ActionFailed:
-            await zxml.send(message=Message(f'消息被风控发不出来了喔，但是你的命令已经执行成功了哦'))       
+            logger.info(f'消息风控，所以我切换了发图捏')
+            await zxml.send(message=Message(f'{msg}'))       
     else:
         await zxml.finish("癞蛤蟆想吃天鹅肉，你小子在想什么？")
 
@@ -90,21 +82,17 @@ async def mcink(event: GroupMessageEvent,mp=RegexGroup()):
         try:
             async with MinecraftClient(rconhost, rconport, rconpassword) as mc:
                 output = await mc.send(f"mcink add {user_id} {player_id}")
-                title = tit
                 text = re.sub(r"§\w", "", output)
-                font_size = 32
-                txt2img = Txt2Img()
-                txt2img.set_font_size(font_size)
                 pic = txt2img.draw(title, text)
                 msg = MessageSegment.image(pic)
-                await whitelist_apply.finish(message=Message(f'{msg}'))
+                await whitelist_apply.finish(message=Message(f'{text}'))
         except ConnectionRefusedError:   
-            await zxml.send(message=Message(f'连接服务器失败\n可能是服务器在重启，请稍后再试')) 
+            await whitelist_apply.send(message=Message(f'连接服务器失败\n可能是服务器在重启，请稍后再试')) 
         except ActionFailed:
-            await zxml.send(message=Message(f'消息被风控发不出来了喔，但是你的命令已经执行成功了哦'))     
+            logger.info(f'消息风控，所以我切换了发图捏')
+            await whitelist_apply.send(message=Message(f'{msg}'))     
     else:
         await whitelist_apply.finish("申请白名单 你的id")
-
 
 
 

@@ -34,5 +34,4 @@ cz=on_keyword({"充值"},block=True,priority=5)
 
 @cz.handle()
 async def _():
-    text = """充值请前往爱发电主页\nhttps://afdian.net/a/jskjfwq/plan\n购买对应点券后查看爱发电私信即可\n游戏内购买完商品后，请查看商店左下角邮箱领取"""
-    await cz.finish(MS.image(text_to_img(text)))
+    await cz.finish(Message("充值请前往爱发电主页\nhttps://afdian.net/a/jskjfwq/plan\n购买对应点券后查看爱发电私信即可\n游戏内购买完商品后，请查看商店左下角邮箱领取"))
