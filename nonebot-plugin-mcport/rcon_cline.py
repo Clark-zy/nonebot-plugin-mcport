@@ -11,7 +11,7 @@ rconpassword = config.get("rconpassword")
 
 MCClient = MinecraftClient(host=rconhost, port=rconport, pasw=rconpassword)
 
-@driver.on_startup()
+@driver.on_startup
 async def rcon_connect():
     try:
         await MCClient.auth()
@@ -20,7 +20,7 @@ async def rcon_connect():
     else:
         logger.info('Rcon 服务已连接')
 
-@driver.on_shutdown()
+@driver.on_shutdown
 async def rcon_close():
     await MCClient.close()
     logger.info('Rcon 服务已关闭')
