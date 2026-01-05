@@ -17,7 +17,7 @@
 | config | example | usage | 
 | -------- | -------- | -------- | 
 | RCON_HOST| RCON_HOST = "127.0.0.1"| 服务器ip|
-| RCON_PORT| RCON_PORT = ""| 服务器rcon端口 | 
+| RCON_PORT| RCON_PORT = | 服务器rcon端口 | 
 | RCON_PASSWORD| RCON_PASSWORD = ""| 服务器rcon密码| 
 |RCON_MAX_RETRIES| RCON_MAX_RETRIES=5| rcon连接失败后最大重连次数| 
 | RCON_RETRY_DELAY|RCON_RETRY_DELAY=5 | 每次重连向后推迟5秒| 
