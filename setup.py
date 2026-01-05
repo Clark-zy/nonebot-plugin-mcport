@@ -10,15 +10,15 @@ with open(os.path.join(path, "README.md"), "r", encoding="utf-8") as f:
           long_description_content_type="text/markdown",
           author='Provias',
           author_email='1686886163@qq.com',
-          url='http://www.jiushu.info',
+          url='http://wwww.clarkhub.cn',
           include_package_data=True,
           install_requires=[
+              "loguru",
+              "pydantic_settings",
               "numpy",
-              "pillow",
               "nonebot2>=2.0.0a16",
               "nonebot-adapter-onebot>=2.0.0b1",
-              "nonebot-plugin-apscheduler>=0.2.0",
-              "async-mcrcon>=0.1.0"
+              "nonebot-plugin-apscheduler>=0.2.0"
           ],
           license='MIT License',
           packages=find_packages(),
@@ -32,3 +32,4 @@ with open(os.path.join(path, "README.md"), "r", encoding="utf-8") as f:
                        'Topic :: Software Development :: Libraries'
                        ],
           )
+
