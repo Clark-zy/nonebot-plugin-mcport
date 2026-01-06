@@ -6,7 +6,7 @@ from nonebot.adapters.onebot.v11.event import GroupMessageEvent
 from nonebot.adapters.onebot.v11.message import Message
 from nonebot.params import RegexGroup
 import re
-from . import service as mc_rcon
+from .service import rcon_service as mc_rcon
 config = get_driver().config.dict()
 serverowner = config.get("serverowner")#获取服务器管理员QQ
 
